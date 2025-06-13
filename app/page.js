@@ -1,4 +1,5 @@
 import { auth, signIn, signOut } from "@/auth";
+import Link from "next/link";
 
 export default async function HomePage() {
   const session = await auth();
@@ -9,6 +10,9 @@ export default async function HomePage() {
       <>
         <h1>Welcome {session.user.name}!</h1>
         <p>You have signed in with GitHub.</p>
+        <Link href="/dashboard" className="btn btn-link">
+          Go to Dashboard
+        </Link>
         <form
           action={async () => {
             "use server";
