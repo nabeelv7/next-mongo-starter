@@ -13,24 +13,26 @@ export default async function MatchPage({ params }) {
 
   await connectMongo();
 
-  let matches = [];
+  let match = [];
   try {
-    const user = await User.findById(session.user.id);
-    matches = await Match.find({ hostId: user._id });
+    match = await Match.findById(id).populate("members");
   } catch (err) {
-    return (
-      <div className="text-red-500">Failed to fetch matches: {err.message}</div>
-    );
+    return <div className="text-red-500">No Match Found</div>;
   }
 
   return (
     <>
       <div>Match Page for match with id: {id}</div>
-      {matches?.members.map((member) => (
-        <ul key={match._id}>
-            <li>{match.member}</li>
-        </ul>
-      ))}
+      <h1 className="text-2xl">match members</h1>
+      {match.members.map((member) => {
+        return (
+          <div key={member._id} className="flex flex-col items-center max-w-sm bg-accent p-4">
+            <img src={member.image} alt={`${member.name}'s profile picture`} />
+            <h2>{member.name}</h2>
+            <p>{member.email}</p>
+          </div>
+        );
+      })}
     </>
   );
 }
