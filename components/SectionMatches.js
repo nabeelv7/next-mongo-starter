@@ -26,8 +26,10 @@ export default async function SectionMatches() {
       <h1 className="text-2xl font-bold">Your Matches</h1>
       <div className="flex flex-col gap-3">
         {matches.map((match) => (
-          <div key={match._id} className="p-2 bg-gray-100 rounded">
-            {match.name}
+          <div key={match._id} className="p-2 bg-gray-100 rounded text-black">
+            {match.name} <br />
+            {match.date} <br />
+            {match.time} <br />
           </div>
         ))}
       </div>
