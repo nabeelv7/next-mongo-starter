@@ -2,6 +2,7 @@ import Match from "@/models/Match";
 import User from "@/models/User";
 import { auth } from "@/auth";
 import connectMongo from "@/libs/mongoose";
+import Link from "next/link";
 
 export default async function SectionMatches() {
   await connectMongo();
@@ -26,11 +27,15 @@ export default async function SectionMatches() {
       <h1 className="text-2xl font-bold">Your Matches</h1>
       <div className="flex flex-col gap-3">
         {matches.map((match) => (
-          <div key={match._id} className="p-2 bg-gray-100 rounded text-black">
+          <Link
+            href={`/match/${match._id}`}
+            key={match._id}
+            className="p-2 bg-gray-100 rounded text-black"
+          >
             {match.name} <br />
             {match.date} <br />
             {match.time} <br />
-          </div>
+          </Link>
         ))}
       </div>
     </section>

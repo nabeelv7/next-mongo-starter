@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import toast from "react-hot-toast";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
@@ -19,24 +20,23 @@ export default function SectionInvite({ id, session }) {
   }
 
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const joinMatch = async () => {
     if (isLoading) return;
     setIsLoading(true);
     try {
       const { data } = await axios.post(`/api/join`, { id: id });
-      if (data?.error) setError(data.error);
+      if (data.status === 200) toast.success("You joined the match!");
+      if (data?.error) toast.error(data.error);
       console.log("DATA", data);
     } catch (err) {
-      setError(err.message);
+      toast.error(err.message);
     } finally {
       setIsLoading(false);
     }
   };
   return (
     <>
-      {error && <div className="text-red-500">Error: {error}</div>}
       <p>You have been invited by {host} to join a match! 🥳🎉</p>
       <p>MATCH ID: {id}</p>
       <button onClick={joinMatch} className="btn btn-primary">
